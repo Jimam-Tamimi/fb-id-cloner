@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addLayout(self.horizontalLayout_4)
         self.runBtn = QtWidgets.QPushButton(self.widget)
         self.runBtn.setObjectName("runBtn")
-        self.runBtn.clicked.connect(lambda : run(int(self.firstNum.text()), int(self.secondNum.text()), int(self.totalTabs.text()), int(self.totalAcccount.text()), self.prefix.text(), self.newPass.text(), self.customPass.text(), self.passwordIndex.text()))
+        self.runBtn.clicked.connect(lambda : run(int(self.firstNum.text()), int(self.secondNum.text()), int(self.totalTabs.text()), int(self.totalAcccount.text()), self.prefix.text(), self.newPass.text(), self.customPass.text(), int(self.passwordIndex.text())))
         
         
         
